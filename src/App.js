@@ -1,5 +1,125 @@
-import React from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
 
+class Formheading extends Component{
+  render() {
+    return <h2>Shopping List</h2>;
+  }
+}
 
+class Form extends Component {
+  render() {
+    const {
+      value,
+      handleChange,
+      addItem,
+      inputIsEmpty
+    } = this.props;
+    return (
+      <div>
+        <form onSubmit={addItem}>
+          <input
+            type="text"
+            placeholder="Enter New Item"
+            value={value}
+            onChange={handleChange}
+          />
+          <button disabled={inputIsEmpty()}>Add</button>
+        </form>
+      </div>
+    );
+  }
+}
+
+class ItemListheading extends Component {
+  render() {
+    return <p className="items">Items</p>;
+  }
+}
+
+class ItemsList extends Component {
+  render() {
+    const {  
+      items,
+    } = this.props;
+    return (
+      <div>
+        <ol className="item-list">
+          {items.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ol>
+      </div>
+    );
+  }
+}
+
+class Button extends Component {
+  render() {
+    const {
+      deleteLastItem,
+      noItemsFound
+    } = this.props;
+    return (
+      <button onClick={deleteLastItem} disabled={noItemsFound()}>
+        Delete Last Item
+      </button>
+    );
+  }
+}
+
+
+class App extends Component {
+  state = {
+    value: "",
+    items: []
+  };
+
+  handleChange = event => {
+    this.setState({ value: event.target.value });
+  };
+
+  addItem = event => {
+    event.preventDefault();
+    this.setState(oldState => ({
+      items: [...oldState.items, this.state.value]
+    }));
+  };
+
+  deleteLastItem = event => {
+    this.setState(prevState => ({ items: this.state.items.slice(0, -1) }));
+  };
+
+  inputIsEmpty = () => {
+    return this.state.value === "";
+  };
+
+  noItemsFound = () => {
+    return this.state.items.length === 0;
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <Formheading />
+        <Form
+          value={this.state.value}
+          handleChange={this.handleChange}
+          addItem={this.addItem}
+          inputIsEmpty={ this.inputIsEmpty}
+        />
+        <Button
+          deleteLastItem={this.deleteLastItem}
+          noItemsFound={this.noItemsFound}
+        />
+        <ItemListheading />
+        <ItemsList
+          items={this.state.items}
+        />
+      </div>
+    );
+  }
+}
+
+export default App;
