@@ -41,17 +41,29 @@ class ItemListheading extends Component {
 class ItemsList extends Component {
   render() {
     const {  
-      items,
+      items
     } = this.props;
     return (
       <div>
         <ol className="item-list">
           {items.map((item, index) => (
-            <li key={index}>{item}</li>
+            <Item key={index} item={item} />
           ))}
         </ol>
       </div>
     );
+  }
+}
+
+class Item extends Component {
+  render() {
+    const {
+      index,
+      item
+    } = this.props ;
+    return (
+       <li>{item}</li>
+    )
   }
 }
 
