@@ -32,12 +32,6 @@ class Form extends Component {
   }
 }
 
-class ItemListheading extends Component {
-  render() {
-    return <p className="items">Items</p>;
-  }
-}
-
 class ItemsList extends Component {
   render() {
     const {  
@@ -45,6 +39,7 @@ class ItemsList extends Component {
     } = this.props;
     return (
       <div>
+        <p className="items">Items</p>
         <ol className="item-list">
           {items.map((item, index) => (
             <Item key={index} item={item} />
@@ -62,7 +57,7 @@ class Item extends Component {
       item
     } = this.props ;
     return (
-       <li>{item}</li>
+       <li key={index}>{item}</li>
     )
   }
 }
@@ -125,7 +120,6 @@ class App extends Component {
           deleteLastItem={this.deleteLastItem}
           noItemsFound={this.noItemsFound}
         />
-        <ItemListheading />
         <ItemsList
           items={this.state.items}
         />
